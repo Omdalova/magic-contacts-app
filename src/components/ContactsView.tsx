@@ -232,19 +232,39 @@ export const ContactsView = ({ contacts, onContactSelect, onOpenSettings }: Cont
   // Main Contacts View
   return (
     <div className="flex flex-col h-screen bg-background relative">
+      {/* Fixed Top Bar - Always Visible */}
+      <div className="fixed top-0 left-0 right-0 z-30 bg-surface/95 backdrop-blur-sm border-b border-border">
+        <div className="flex items-center justify-between px-4 py-3">
+          <button className="p-2 -ml-2">
+            <Menu className="w-6 h-6 text-foreground" />
+          </button>
+          <div className="flex items-center space-x-4">
+            <button className="p-2">
+              <QrCode className="w-6 h-6 text-foreground" />
+            </button>
+            <button className="p-2" onClick={openSearchMode}>
+              <Search className="w-6 h-6 text-foreground" />
+            </button>
+            <button className="p-2">
+              <MoreVertical className="w-6 h-6 text-foreground" />
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Alphabet Sidebar */}
       {contacts.length > 0 && (
-        <div className="fixed right-2 top-1/2 -translate-y-1/2 z-20 flex flex-col space-y-1">
+        <div className="fixed right-1 top-1/2 -translate-y-1/2 z-20 flex flex-col space-y-0.5 bg-background/80 backdrop-blur-sm rounded-full px-1 py-2 shadow-sm">
           {alphabet.map(letter => (
             <button
               key={letter}
               onClick={() => handleLetterClick(letter)}
-              className={`w-6 h-6 rounded-full text-xs font-medium transition-colors ${
+              className={`w-4 h-4 rounded-full text-xs font-medium transition-all duration-200 ${
                 selectedLetter === letter
-                  ? 'bg-primary text-white'
+                  ? 'bg-primary text-white scale-110 shadow-sm'
                   : groupedContacts[letter]
-                    ? 'text-primary hover:bg-primary/10'
-                    : 'text-muted-foreground/50 cursor-not-allowed'
+                    ? 'text-primary hover:bg-primary/20 hover:scale-105'
+                    : 'text-muted-foreground/30 cursor-not-allowed'
               }`}
               disabled={!groupedContacts[letter]}
             >
@@ -255,27 +275,9 @@ export const ContactsView = ({ contacts, onContactSelect, onOpenSettings }: Cont
       )}
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto">
-        {/* Header that scrolls with content */}
-        <div className="bg-surface px-4 pt-12 pb-6 sticky top-0 z-10 border-b border-border">
-          <div className="flex items-center justify-between mb-4">
-            <button className="p-2 -ml-2">
-              <Menu className="w-6 h-6 text-foreground" />
-            </button>
-            <div className="flex items-center space-x-4">
-              <button className="p-2">
-                <QrCode className="w-6 h-6 text-foreground" />
-              </button>
-              <button className="p-2" onClick={openSearchMode}>
-                <Search className="w-6 h-6 text-foreground" />
-              </button>
-              <button className="p-2">
-                <MoreVertical className="w-6 h-6 text-foreground" />
-              </button>
-            </div>
-          </div>
-          
-          {/* Profile Section */}
+      <div className="flex-1 overflow-y-auto pt-16">
+        {/* Profile Header - Scrolls naturally */}
+        <div className="bg-surface px-4 py-6">
           <div className="flex items-center space-x-4">
             <ContactAvatar name="User Profile" size="large" />
             <div>
