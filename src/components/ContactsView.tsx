@@ -334,13 +334,10 @@ export const ContactsView = ({ contacts, onContactSelect, onOpenSettings }: Cont
                     className="flex items-center p-4 cursor-pointer hover:bg-accent transition-colors active:bg-accent/80 animate-tap-feedback touch-target"
                     onClick={() => onContactSelect(contact.name)}
                   >
-                    <ContactAvatar name={contact.name} />
-                    <div className="ml-4 flex-1">
-                      <h3 className="font-medium text-foreground">{contact.name}</h3>
-                      {contact.phone && (
-                        <p className="text-sm text-muted-foreground">{contact.phone}</p>
-                      )}
-                    </div>
+                  <ContactAvatar name={contact.name} />
+                  <div className="ml-4 flex-1">
+                    <h3 className="font-medium text-foreground">{contact.name}</h3>
+                  </div>
                   </div>
                 ))}
               </div>
@@ -364,9 +361,6 @@ export const ContactsView = ({ contacts, onContactSelect, onOpenSettings }: Cont
                         <ContactAvatar name={contact.name} />
                         <div className="ml-4 flex-1">
                           <h3 className="font-medium text-foreground">{contact.name}</h3>
-                          {contact.phone && (
-                            <p className="text-sm text-muted-foreground">{contact.phone}</p>
-                          )}
                         </div>
                       </div>
                     ))}
