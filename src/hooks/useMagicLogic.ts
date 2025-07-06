@@ -3,7 +3,7 @@ import { useContactsStore } from './useContactsStore';
 import { ForcedData, Contact, ProfileConfig } from '@/types';
 
 export const useMagicLogic = () => {
-  const { state, mapContact } = useContactsStore();
+  const { state, mapContact, updateState } = useContactsStore();
 
   const getForcedReveal = useCallback((contactName: string): ForcedData => {
     const { contacts, forcedData, revealIndex, revealMap } = state;
@@ -82,12 +82,20 @@ export const useMagicLogic = () => {
       const jsonString = decoder.decode(binaryData);
       const loadedConfig: ProfileConfig = JSON.parse(jsonString);
       
-      return true; // Return true for successful parsing
+      // Apply the loaded configuration to the store
+      updateState({
+        forcedData: loadedConfig.forcedData || [],
+        forcedSearchResults: loadedConfig.forcedSearchResults || [],
+        revealIndex: 0,
+        revealMap: {}
+      });
+      
+      return true; // Return true for successful parsing and application
     } catch (error) {
       console.error("Import failed:", error);
       return false;
     }
-  }, []);
+  }, [updateState]);
 
   return {
     getForcedReveal,

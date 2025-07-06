@@ -31,6 +31,8 @@ export const useContactsStore = () => {
     try {
       localStorage.setItem(STATE_KEY, JSON.stringify(newState));
       setState(newState);
+      // Force a re-render by triggering a storage event
+      window.dispatchEvent(new Event('storage'));
     } catch (error) {
       console.error('Failed to save state:', error);
     }
@@ -112,9 +114,19 @@ export const useContactsStore = () => {
       }
     };
 
+    const handleFocus = () => {
+      // Refresh state when app comes back into focus
+      loadState();
+    };
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, [resetRevealState]);
+    window.addEventListener('focus', handleFocus);
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [resetRevealState, loadState]);
 
   return {
     state,

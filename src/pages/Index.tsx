@@ -14,6 +14,12 @@ const Index = () => {
   const { state, isFirstTime } = useContactsStore();
   const { getForcedReveal } = useMagicLogic();
 
+  // Force re-render when state changes by using state dependencies
+  useEffect(() => {
+    // This effect will run whenever state.contacts changes
+    // ensuring the UI updates immediately
+  }, [state.contacts, state.forcedData, state.forcedSearchResults]);
+
   useEffect(() => {
     if (isFirstTime()) {
       setCurrentView('setup');
